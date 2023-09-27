@@ -20,11 +20,18 @@ db = client["bank"]
 # Get reference to 'accounts' collection
 accounts_collection = db.accounts
 
-# Query by ObjectId
-document_to_find = {"_id": ObjectId("65143e38f07d13fe75a0c971")}
+# Query
+documents_to_find = {"balance": {"$gt": 4700}}
 
-# Write an expression that retrieves the documentg matching the query constraint in the "account" collection.
-result = accounts_collection.find_one(document_to_find)
-pprint.pprint(result)
+
+# Write an expression that selects the documents matching the query constraint in the "account" collection
+cursor = accounts_collection.find(documents_to_find)
+
+num_docs = 0
+for document in cursor:
+    num_docs += 1
+    pprint.pprint(document)
+    print()
+print("# of documents found:" + str(num_docs))
 
 client.close()
